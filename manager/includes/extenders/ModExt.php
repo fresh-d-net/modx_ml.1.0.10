@@ -407,9 +407,14 @@ class ModExt  extends DocumentParser{
 		$a_context_config = $domain_config;
 
 		$curHost = str_replace('www.', '', $_SERVER['HTTP_HOST']); //домен без www используется как идентификатор контекста
-		foreach($a_context_config[$curHost] as $key=>$val){
-			$this->config[$key] = $val;
+		if(empty($a_context_config[$curHost])){
+			die('Context config is empty.');
+		}else{
+			foreach($a_context_config[$curHost] as $key=>$val){
+				$this->config[$key] = $val;
+			}
 		}
+
 		//End 2013.04.23 - fedo
     }
 

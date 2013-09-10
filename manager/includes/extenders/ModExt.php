@@ -10,6 +10,34 @@ class ModExt  extends DocumentParser{
 
 	var $is_ajax = false;
 
+	function ModExt($is_ajax = false) {
+        global $database_server;
+        if(substr(PHP_OS,0,3) === 'WIN' && $database_server==='localhost') $database_server = '127.0.0.1';
+        $this->loadExtension('DBAPI') or die('Could not load DBAPI class.'); // load DBAPI class
+        $this->dbConfig= & $this->db->config; // alias for backward compatibility
+
+		/*fedo (studio-fresh)*/
+		if(!$is_ajax){
+			$this->jscripts= array ();
+			$this->sjscripts= array ();
+			$this->loadedjscripts= array ();
+			// events
+			$this->event= new SystemEvent();
+			$this->Event= & $this->event; //alias for backward compatibility
+			$this->pluginEvent= array ();
+		}else{
+			 // get the settings
+			if (empty ($this->config)) {
+				$this->getSettings();
+			}
+		}
+		/*End fedo (studio-fresh)*/
+
+        // set track_errors ini variable
+        @ ini_set("track_errors", "1"); // enable error tracking in $php_errormsg
+        $this->error_reporting = 1;
+    }
+
 	/** Метод расставляет плейсхолдеры в указанной строке
 	 * Controller::setPlaceHolders( (str)sTpl, array('key'=> 'val') [, (str)prefix] [, (str)suffix])
 	 * Пример вызова:

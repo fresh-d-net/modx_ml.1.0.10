@@ -4,11 +4,11 @@
  */
 $database_type = 'mysql';
 $database_server = 'localhost';
-$database_user = 'u_berdoart';
-$database_password = 'X8XZrmWK';
+$database_user = 'username';
+$database_password = 'password';
 $database_connection_charset = 'utf8';
 $database_connection_method = 'SET CHARACTER SET';
-$dbase = '`berdoart_db`';
+$dbase = '`database`';
 $table_prefix = 'modx_';
 error_reporting(E_ALL & ~E_NOTICE);
 

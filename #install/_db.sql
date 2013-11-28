@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 3.4.11.1deb1
+-- version 3.5.8.2
 -- http://www.phpmyadmin.net
 --
 -- Хост: localhost
--- Час створення: Лис 28 2013 р., 16:44
--- Версія сервера: 5.5.34
--- Версія PHP: 5.4.6-1ubuntu1.4
+-- Час створення: Лис 28 2013 р., 17:59
+-- Версія сервера: 5.1.72-2
+-- Версія PHP: 5.2.6-1+lenny13
 
 SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -17,7 +17,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8 */;
 
 --
--- БД: `test`
+-- База даних: `vinil`
 --
 
 -- --------------------------------------------------------
@@ -41,7 +41,7 @@ CREATE TABLE IF NOT EXISTS `modx_active_users` (
 --
 
 INSERT INTO `modx_active_users` (`internalKey`, `username`, `lasthit`, `id`, `action`, `ip`) VALUES
-(1, 'admin', 1385647982, NULL, '76', '195.22.131.110'),
+(1, 'admin', 1385654321, 2, '27', '195.22.131.110'),
 (2, 'aquaproject', 1385240805, NULL, '4', '46.203.30.72');
 
 -- --------------------------------------------------------
@@ -160,7 +160,7 @@ CREATE TABLE IF NOT EXISTS `modx_event_log` (
   `description` text,
   PRIMARY KEY (`id`),
   KEY `user` (`user`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COMMENT='Stores event and error logs' AUTO_INCREMENT=771 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COMMENT='Stores event and error logs' AUTO_INCREMENT=784 ;
 
 --
 -- Дамп даних таблиці `modx_event_log`
@@ -957,7 +957,20 @@ INSERT INTO `modx_event_log` (`id`, `eventid`, `createdon`, `type`, `user`, `use
 (767, 0, 1385641136, 3, 1, 0, 'SQL Query - Refreshing site', '<b>Use of undefined constant E_USER_DEPRECATED - assumed ''E_USER_DEPRECATED''</b><br />\n<h3 style="color:red">&laquo; MODX Parse Error &raquo;</h3>\n	                <table border="0" cellpadding="1" cellspacing="0">\n	                <tr><td colspan="2">MODX encountered the following error while attempting to parse the requested resource:</td></tr>\n	                <tr><td colspan="2"><b style="color:red;">&laquo; Execution of a query to the database failed - You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '')) AS alias, id, parent, isfolder FROM `berdoart_db`.`modx_site_content` WHERE d'' at line 1 &raquo;</b></td></tr><tr><td colspan="2"><div style="font-weight:bold;border:1px solid #ccc;padding:8px;color:#333;background-color:#ffffcd;">SQL &gt; <span id="sqlHolder">SELECT IF(alias='''', id, IF(isfolder=1, alias, CONCAT(alias, .html)) AS alias, id, parent, isfolder FROM `berdoart_db`.`modx_site_content` WHERE deleted=0 ORDER BY parent, menuindex</span></div>\n	                </td></tr><tr><td colspan="2"><b>Basic info</b></td></tr><tr><td valign="top" style="white-space:nowrap;">REQUEST_URI : </td><td>/manager/index.php?a=26</td></tr><tr><td valign="top">Manager action : </td><td>26 - Refreshing site</td></tr><tr><td>Referer : </td><td>http://berdoart.com/manager/index.php?a=1&amp;amp;f=menu</td></tr><tr><td>User Agent : </td><td>Mozilla/5.0 (X11; Linux i686) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/31.0.1650.57 Safari/537.36</td></tr><tr><td>IP : </td><td>195.22.131.110</td></tr><tr><td colspan="2"><b>Benchmarks</b></td></tr><tr><td>MySQL : </td><td>0,0004 s (1 Requests)</td></tr><tr><td>PHP : </td><td>0,0364 s</td></tr><tr><td>Total : </td><td>0,0368 s</td></tr><tr><td>Memory : </td><td>4,2477798461914 mb</td></tr></table>\n<br /><p><b>Backtrace</b></p>\n<table><tr><td valign="top">1</td><td>include_once()<br />manager/index.php on line 526</td><tr><td valign="top">2</td><td>synccache->emptyCache()<br />manager/actions/refresh_site.dynamic.php on line 29</td><tr><td valign="top">3</td><td>synccache->buildCache()<br />manager/processors/cache_sync.class.processor.php on line 98</td><tr><td valign="top">4</td><td>DBAPI->query()<br />manager/processors/cache_sync.class.processor.php on line 204</td></table>\n'),
 (768, 17, 1385641788, 2, 1, 0, 'fake settings_version', '<pre>''1.0.10''</pre>'),
 (769, 0, 1385644765, 3, 0, 0, 'Parser -                 header($responseCode);\n', '<b>Use of undefined constant E_USER_DEPRECATED - assumed ''E_USER_DEPRECATED''</b><br />\n<h3 style="color:red">&laquo; MODX Parse Error &raquo;</h3>\n	                <table border="0" cellpadding="1" cellspacing="0">\n	                <tr><td colspan="2">MODX encountered the following error while attempting to parse the requested resource:</td></tr>\n	                <tr><td colspan="2"><b style="color:red;">&laquo; PHP Parse Error &raquo;</b></td></tr><tr><td colspan="2"><b>PHP error debug</b></td></tr><tr><td colspan="2"><div style="font-weight:bold;border:1px solid #ccc;padding:8px;color:#333;background-color:#ffffcd;">Error : Cannot modify header information - headers already sent by (output started at /var/www/berdoart/berdoart.com/manager/includes/extenders/ModExt.php:681)</div></td></tr><tr><td valign="top">ErrorType[num] : </td><td>WARNING[2]</td></tr><tr><td>File : </td><td>/var/www/berdoart/berdoart.com/manager/includes/document.parser.class.inc.php</td></tr><tr><td>Line : </td><td>156</td></tr><tr><td>Source : </td><td>                header($responseCode);\n</td></tr><tr><td colspan="2"><b>Basic info</b></td></tr><tr><td valign="top" style="white-space:nowrap;">REQUEST_URI : </td><td>/contacts</td></tr><tr><td valign="top">Resource : </td><td>[3]<a href="http://berdoart.comru/index.html" target="_blank">Главная страница</a></td></tr><tr><td>Referer : </td><td></td></tr><tr><td>User Agent : </td><td>Mozilla/5.0 (X11; Linux i686) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/31.0.1650.57 Safari/537.36</td></tr><tr><td>IP : </td><td>195.22.131.110</td></tr><tr><td colspan="2"><b>Benchmarks</b></td></tr><tr><td>MySQL : </td><td>0.0014 s (10 Requests)</td></tr><tr><td>PHP : </td><td>1.2717 s</td></tr><tr><td>Total : </td><td>1.2730 s</td></tr><tr><td>Memory : </td><td>4.3754425048828 mb</td></tr></table>\n<br /><p><b>Backtrace</b></p>\n<table><tr><td valign="top">1</td><td>ModExt->executeParser()<br />index.php on line 156</td><tr><td valign="top">2</td><td>DocumentParser->sendErrorPage()<br />manager/includes/extenders/ModExt.php on line 556</td><tr><td valign="top">3</td><td>DocumentParser->sendForward()<br />manager/includes/document.parser.class.inc.php on line 170</td><tr><td valign="top">4</td><td>header()<br />manager/includes/document.parser.class.inc.php on line 156</td></table>\n'),
-(770, 0, 1385644799, 3, 0, 0, 'Parser -                 header($responseCode);\n', '<b>Use of undefined constant E_USER_DEPRECATED - assumed ''E_USER_DEPRECATED''</b><br />\n<h3 style="color:red">&laquo; MODX Parse Error &raquo;</h3>\n	                <table border="0" cellpadding="1" cellspacing="0">\n	                <tr><td colspan="2">MODX encountered the following error while attempting to parse the requested resource:</td></tr>\n	                <tr><td colspan="2"><b style="color:red;">&laquo; PHP Parse Error &raquo;</b></td></tr><tr><td colspan="2"><b>PHP error debug</b></td></tr><tr><td colspan="2"><div style="font-weight:bold;border:1px solid #ccc;padding:8px;color:#333;background-color:#ffffcd;">Error : Cannot modify header information - headers already sent by (output started at /var/www/berdoart/berdoart.com/manager/includes/extenders/ModExt.php:680)</div></td></tr><tr><td valign="top">ErrorType[num] : </td><td>WARNING[2]</td></tr><tr><td>File : </td><td>/var/www/berdoart/berdoart.com/manager/includes/document.parser.class.inc.php</td></tr><tr><td>Line : </td><td>156</td></tr><tr><td>Source : </td><td>                header($responseCode);\n</td></tr><tr><td colspan="2"><b>Basic info</b></td></tr><tr><td valign="top" style="white-space:nowrap;">REQUEST_URI : </td><td>/contacts</td></tr><tr><td valign="top">Resource : </td><td>[3]<a href="http://berdoart.comru/index.html" target="_blank">Главная страница</a></td></tr><tr><td>Referer : </td><td></td></tr><tr><td>User Agent : </td><td>Mozilla/5.0 (X11; Linux i686) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/31.0.1650.57 Safari/537.36</td></tr><tr><td>IP : </td><td>195.22.131.110</td></tr><tr><td colspan="2"><b>Benchmarks</b></td></tr><tr><td>MySQL : </td><td>0.0013 s (10 Requests)</td></tr><tr><td>PHP : </td><td>0.0402 s</td></tr><tr><td>Total : </td><td>0.0414 s</td></tr><tr><td>Memory : </td><td>4.3754425048828 mb</td></tr></table>\n<br /><p><b>Backtrace</b></p>\n<table><tr><td valign="top">1</td><td>ModExt->executeParser()<br />index.php on line 156</td><tr><td valign="top">2</td><td>DocumentParser->sendErrorPage()<br />manager/includes/extenders/ModExt.php on line 555</td><tr><td valign="top">3</td><td>DocumentParser->sendForward()<br />manager/includes/document.parser.class.inc.php on line 170</td><tr><td valign="top">4</td><td>header()<br />manager/includes/document.parser.class.inc.php on line 156</td></table>\n');
+(770, 0, 1385644799, 3, 0, 0, 'Parser -                 header($responseCode);\n', '<b>Use of undefined constant E_USER_DEPRECATED - assumed ''E_USER_DEPRECATED''</b><br />\n<h3 style="color:red">&laquo; MODX Parse Error &raquo;</h3>\n	                <table border="0" cellpadding="1" cellspacing="0">\n	                <tr><td colspan="2">MODX encountered the following error while attempting to parse the requested resource:</td></tr>\n	                <tr><td colspan="2"><b style="color:red;">&laquo; PHP Parse Error &raquo;</b></td></tr><tr><td colspan="2"><b>PHP error debug</b></td></tr><tr><td colspan="2"><div style="font-weight:bold;border:1px solid #ccc;padding:8px;color:#333;background-color:#ffffcd;">Error : Cannot modify header information - headers already sent by (output started at /var/www/berdoart/berdoart.com/manager/includes/extenders/ModExt.php:680)</div></td></tr><tr><td valign="top">ErrorType[num] : </td><td>WARNING[2]</td></tr><tr><td>File : </td><td>/var/www/berdoart/berdoart.com/manager/includes/document.parser.class.inc.php</td></tr><tr><td>Line : </td><td>156</td></tr><tr><td>Source : </td><td>                header($responseCode);\n</td></tr><tr><td colspan="2"><b>Basic info</b></td></tr><tr><td valign="top" style="white-space:nowrap;">REQUEST_URI : </td><td>/contacts</td></tr><tr><td valign="top">Resource : </td><td>[3]<a href="http://berdoart.comru/index.html" target="_blank">Главная страница</a></td></tr><tr><td>Referer : </td><td></td></tr><tr><td>User Agent : </td><td>Mozilla/5.0 (X11; Linux i686) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/31.0.1650.57 Safari/537.36</td></tr><tr><td>IP : </td><td>195.22.131.110</td></tr><tr><td colspan="2"><b>Benchmarks</b></td></tr><tr><td>MySQL : </td><td>0.0013 s (10 Requests)</td></tr><tr><td>PHP : </td><td>0.0402 s</td></tr><tr><td>Total : </td><td>0.0414 s</td></tr><tr><td>Memory : </td><td>4.3754425048828 mb</td></tr></table>\n<br /><p><b>Backtrace</b></p>\n<table><tr><td valign="top">1</td><td>ModExt->executeParser()<br />index.php on line 156</td><tr><td valign="top">2</td><td>DocumentParser->sendErrorPage()<br />manager/includes/extenders/ModExt.php on line 555</td><tr><td valign="top">3</td><td>DocumentParser->sendForward()<br />manager/includes/document.parser.class.inc.php on line 170</td><tr><td valign="top">4</td><td>header()<br />manager/includes/document.parser.class.inc.php on line 156</td></table>\n'),
+(771, 0, 1385653423, 3, 0, 0, 'SQL Query', '<b>Use of undefined constant E_USER_DEPRECATED - assumed ''E_USER_DEPRECATED''</b><br />\n<h3 style="color:red">&laquo; MODX Parse Error &raquo;</h3>\n	                <table border="0" cellpadding="1" cellspacing="0">\n	                <tr><td colspan="2">MODX encountered the following error while attempting to parse the requested resource:</td></tr>\n	                <tr><td colspan="2"><b style="color:red;">&laquo; Execution of a query to the database failed - You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ''Use of undefined constant E_USER_DEPRECATED - assumed \\''E_USER_DEPRECATED\\''</b><'' at line 1 &raquo;</b></td></tr><tr><td colspan="2"><div style="font-weight:bold;border:1px solid #ccc;padding:8px;color:#333;background-color:#ffffcd;">SQL &gt; <span id="sqlHolder">INSERT INTO `vinil`.`modx_event_log` (eventid,type,createdon,source,description,user) VALUES(0,3,1385653423,''Parser -         if (!$handle = fopen($filename, \\'',''<b>Use of undefined constant E_USER_DEPRECATED - assumed \\''E_USER_DEPRECATED\\''</b><br />\\n<h3 style=\\"color:red\\">&laquo; MODX Parse Error &raquo;</h3>\\n	                <table border=\\"0\\" cellpadding=\\"1\\" cellspacing=\\"0\\">\\n	                <tr><td colspan=\\"2\\">MODX encountered the following error while attempting to parse the requested resource:</td></tr>\\n	                <tr><td colspan=\\"2\\"><b style=\\"color:red;\\">&laquo; PHP Parse Error &raquo;</b></td></tr><tr><td colspan=\\"2\\"><b>PHP error debug</b></td></tr><tr><td colspan=\\"2\\"><div style=\\"font-weight:bold;border:1px solid #ccc;padding:8px;color:#333;background-color:#ffffcd;\\">Error : fopen(/var/www/freshd/vinil.fresh-d.net//assets/cache/siteCache.idx.php) [<a href=\\''function.fopen\\''>function.fopen</a>]: failed to open stream: Permission denied</div></td></tr><tr><td valign=\\"top\\">ErrorType[num] : </td><td>WARNING[2]</td></tr><tr><td>File : </td><td>/var/www/freshd/vinil.fresh-d.net/manager/processors/cache_sync.class.processor.php</td></tr><tr><td>Line : </td><td>305</td></tr><tr><td>Source : </td><td>        if (!$handle = fopen($filename, \\''w\\'')) {\\n</td></tr><tr><td colspan=\\"2\\"><b>Basic info</b></td></tr><tr><td valign=\\"top\\" style=\\"white-space:nowrap;\\">REQUEST_URI : </td><td>/</td></tr><tr><td>Referer : </td><td></td></tr><tr><td>User Agent : </td><td>Mozilla/5.0 (X11; Linux i686) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/31.0.1650.57 Safari/537.36</td></tr><tr><td>IP : </td><td>195.22.131.110</td></tr><tr><td colspan=\\"2\\"><b>Benchmarks</b></td></tr><tr><td>MySQL : </td><td>0.0053 s (8 Requests)</td></tr><tr><td>PHP : </td><td>0.0193 s</td></tr><tr><td>Total : </td><td>0.0245 s</td></tr><tr><td>Memory : </td><td>2.8777084350586 mb</td></tr></table>\\n<br /><p><b>Backtrace</b></p>\\n<table><tr><td valign=\\"top\\">1</td><td>ModExt->executeParser()<br />index.php on line 156</td><tr><td valign=\\"top\\">2</td><td>ModExt->getSettings()<br />manager/includes/extenders/ModExt.php on line 470</td><tr><td valign=\\"top\\">3</td><td>synccache->buildCache()<br />manager/includes/extenders/ModExt.php on line 365</td><tr><td valign=\\"top\\">4</td><td>fopen()<br />manager/processors/cache_sync.class.processor.php on line 305</td></table>\\n'',''0'')</span></div>\n	                </td></tr><tr><td colspan="2"><b>Basic info</b></td></tr><tr><td valign="top" style="white-space:nowrap;">REQUEST_URI : </td><td>/</td></tr><tr><td>Referer : </td><td></td></tr><tr><td>User Agent : </td><td>Mozilla/5.0 (X11; Linux i686) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/31.0.1650.57 Safari/537.36</td></tr><tr><td>IP : </td><td>195.22.131.110</td></tr><tr><td colspan="2"><b>Benchmarks</b></td></tr><tr><td>MySQL : </td><td>0.0053 s (8 Requests)</td></tr><tr><td>PHP : </td><td>0.0198 s</td></tr><tr><td>Total : </td><td>0.0251 s</td></tr><tr><td>Memory : </td><td>2.8777084350586 mb</td></tr></table>\n<br /><p><b>Backtrace</b></p>\n<table><tr><td valign="top">1</td><td>ModExt->executeParser()<br />index.php on line 156</td><tr><td valign="top">2</td><td>ModExt->getSettings()<br />manager/includes/extenders/ModExt.php on line 470</td><tr><td valign="top">3</td><td>synccache->buildCache()<br />manager/includes/extenders/ModExt.php on line 365</td><tr><td valign="top">4</td><td>fopen()<br />manager/processors/cache_sync.class.processor.php on line 305</td></table>\n'),
+(772, 0, 1385653472, 2, 1, 0, 'Important System Files have been modified.', 'You have enabled the setting to check important system files to detect possible website script attacks. This doesn''t necessarily mean that your site has been compromised, however, you should review the changed files.(index.php, .htaccess, manager/index.php, manager/includes/config.inc.php)'),
+(773, 0, 1385653472, 2, 1, 0, 'Папка изображений (images) недоступна для записи', 'Папка изображений (images) недоступна для записи или не существует на сервере. Из этого следует, что управление изображениями работать не будет'),
+(774, 0, 1385653490, 3, 1, 0, 'Plugin - Tags - Editing resource', '<b>Use of undefined constant E_USER_DEPRECATED - assumed ''E_USER_DEPRECATED''</b><br />\n<h3 style="color:red">&laquo; MODX Parse Error &raquo;</h3>\n	                <table border="0" cellpadding="1" cellspacing="0">\n	                <tr><td colspan="2">MODX encountered the following error while attempting to parse the requested resource:</td></tr>\n	                <tr><td colspan="2"><b style="color:red;">&laquo; PHP Parse Error &raquo;</b></td></tr><tr><td colspan="2"><b>PHP error debug</b></td></tr><tr><td colspan="2"><div style="font-weight:bold;border:1px solid #ccc;padding:8px;color:#333;background-color:#ffffcd;"><br />\n<b>Warning</b>:  include(/var/www/freshd/vinil.fresh-d.net/assets/plugins/tags/tags.plugin.php) [<a href=''function.include''>function.include</a>]: failed to open stream: Нет такого файла или каталога in <b>/var/www/freshd/vinil.fresh-d.net/manager/includes/document.parser.class.inc.php(799) : eval()''d code</b> on line <b>5</b><br />\n<br />\n<b>Warning</b>:  include() [<a href=''function.include''>function.include</a>]: Failed opening ''/var/www/freshd/vinil.fresh-d.net/assets/plugins/tags/tags.plugin.php'' for inclusion (include_path=''./:/:/var/www/freshd/vinil.fresh-d.net/manager/includes/'') in <b>/var/www/freshd/vinil.fresh-d.net/manager/includes/document.parser.class.inc.php(799) : eval()''d code</b> on line <b>5</b><br />\n</div></td></tr><tr><td valign="top">ErrorType[num] : </td><td>WARNING[2]</td></tr><tr><td>File : </td><td>/var/www/freshd/vinil.fresh-d.net/manager/includes/document.parser.class.inc.php(799) : eval()''d code</td></tr><tr><td>Line : </td><td>5</td></tr><tr><td>Source : </td><td>Plugin</td></tr><tr><td colspan="2"><b>Basic info</b></td></tr><tr><td valign="top" style="white-space:nowrap;">REQUEST_URI : </td><td>/manager/index.php?a=27&amp;id=1</td></tr><tr><td valign="top">Manager action : </td><td>27 - Editing resource</td></tr><tr><td>Current Plugin : </td><td>Tags(OnDocFormPrerender)</td></tr><tr><td>Referer : </td><td>http://vinil.fresh-d.net/manager/index.php?a=1&amp;amp;f=tree</td></tr><tr><td>User Agent : </td><td>Mozilla/5.0 (X11; Linux i686) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/31.0.1650.57 Safari/537.36</td></tr><tr><td>IP : </td><td>195.22.131.110</td></tr><tr><td colspan="2"><b>Benchmarks</b></td></tr><tr><td>MySQL : </td><td>0,0006 s (1 Requests)</td></tr><tr><td>PHP : </td><td>0,0349 s</td></tr><tr><td>Total : </td><td>0,0355 s</td></tr><tr><td>Memory : </td><td>4,2456588745117 mb</td></tr></table>\n<br /><p><b>Backtrace</b></p>\n<table><tr><td valign="top">1</td><td>include_once()<br />manager/index.php on line 293</td><tr><td valign="top">2</td><td>DocumentParser->invokeEvent()<br />manager/actions/mutate_content.dynamic.php on line 507</td><tr><td valign="top">3</td><td>DocumentParser->evalPlugin()<br />manager/includes/document.parser.class.inc.php on line 2603</td></table>\n'),
+(775, 1, 1385653565, 3, 1, 0, 'MultiTv. Log.', 'Debug-><pre></pre>'),
+(776, 1, 1385653565, 3, 1, 0, 'MultiTv. Log.', 'Debug-><pre></pre>'),
+(777, 1, 1385653574, 3, 1, 0, 'MultiTv. Log.', 'Debug-><pre></pre>'),
+(778, 1, 1385653574, 3, 1, 0, 'MultiTv. Log.', 'Debug-><pre></pre>'),
+(779, 17, 1385653588, 2, 1, 0, 'fake settings_version', '<pre>''1.0.10''</pre>'),
+(780, 17, 1385653692, 2, 1, 0, 'fake settings_version', '<pre>''1.0.10''</pre>'),
+(781, 0, 1385653780, 3, 0, 0, 'Snippet - getPublications', '<h3 style="color:red">&laquo; MODX Parse Error &raquo;</h3>\n	                <table border="0" cellpadding="1" cellspacing="0">\n	                <tr><td colspan="2">MODX encountered the following error while attempting to parse the requested resource:</td></tr>\n	                <tr><td colspan="2"><b style="color:red;">&laquo; Execution of a query to the database failed - You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ''AND sc.published=1 AND sc.deleted=0 \n\n				ORDER BY sc.menuindex DESC\n			LIMIT 0,'' at line 13 &raquo;</b></td></tr><tr><td colspan="2"><div style="font-weight:bold;border:1px solid #ccc;padding:8px;color:#333;background-color:#ffffcd;">SQL &gt; <span id="sqlHolder">\n				SELECT sc.*, IF(tvc.value !='''', tvc.value, tv.default_text) as value, tvtpl.`tmplvarid`, tv.name AS tmplvarname \n\n				FROM `vinil`.`modx_site_content` as sc \n\n\n				LEFT JOIN `vinil`.`modx_site_tmplvar_templates` as tvtpl ON (tvtpl.`templateid`= sc.`template` AND tvtpl.tmplvarid IN (3)) \n\n				LEFT JOIN `vinil`.`modx_site_tmplvar_contentvalues` as tvc ON (tvc.`contentid` = sc.`id` AND tvtpl.tmplvarid = tvc.`tmplvarid` AND tvc.`tmplvarid` IN (3)) \n\n				LEFT JOIN `vinil`.`modx_site_tmplvars` as tv ON (tvtpl.`tmplvarid`= tv.`id` AND tv.id IN (3)) \n\n\n				WHERE sc.parent =  AND sc.published=1 AND sc.deleted=0 \n\n				ORDER BY sc.menuindex DESC\n			LIMIT 0, 3</span></div>\n	                </td></tr><tr><td colspan="2"><b>Basic info</b></td></tr><tr><td valign="top" style="white-space:nowrap;">REQUEST_URI : </td><td>/</td></tr><tr><td valign="top">Resource : </td><td>[2]<a href="http://vinil.fresh-d.net/ru/index.html" target="_blank">Главная</a></td></tr><tr><td>Current Snippet : </td><td>getPublications</td></tr><tr><td>Referer : </td><td></td></tr><tr><td>User Agent : </td><td>Mozilla/5.0 (X11; Linux i686) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/31.0.1650.57 Safari/537.36</td></tr><tr><td>IP : </td><td>195.22.131.110</td></tr><tr><td colspan="2"><b>Benchmarks</b></td></tr><tr><td>MySQL : </td><td>0.0019 s (11 Requests)</td></tr><tr><td>PHP : </td><td>0.0198 s</td></tr><tr><td>Total : </td><td>0.0218 s</td></tr><tr><td>Memory : </td><td>2.8778381347656 mb</td></tr></table>\n<br /><p><b>Backtrace</b></p>\n<table><tr><td valign="top">1</td><td>ModExt->executeParser()<br />index.php on line 156</td><tr><td valign="top">2</td><td>DocumentParser->prepareResponse()<br />manager/includes/extenders/ModExt.php on line 575</td><tr><td valign="top">3</td><td>ModExt->parseDocumentSource()<br />manager/includes/document.parser.class.inc.php on line 1377</td><tr><td valign="top">4</td><td>DocumentParser->evalSnippets()<br />manager/includes/extenders/ModExt.php on line 748</td><tr><td valign="top">5</td><td>DocumentParser->_get_snip_result()<br />manager/includes/document.parser.class.inc.php on line 874</td><tr><td valign="top">6</td><td>ModExt->evalSnippet()<br />manager/includes/document.parser.class.inc.php on line 958</td><tr><td valign="top">7</td><td>eval()<br />manager/includes/extenders/ModExt.php on line 1129</td><tr><td valign="top">8</td><td>include()<br />manager/includes/extenders/ModExt.php(1129) : eval()''d code on line 1</td><tr><td valign="top">9</td><td>ModExt->getDocumentWithTv()<br />assets/snippets/getPublications.snippet.php on line 55</td><tr><td valign="top">10</td><td>DBAPI->query()<br />manager/includes/extenders/ModExt.php on line 141</td></table>\n'),
+(782, 1, 1385654321, 3, 1, 0, 'MultiTv. Log.', 'Debug-><pre></pre>'),
+(783, 1, 1385654321, 3, 1, 0, 'MultiTv. Log.', 'Debug-><pre></pre>');
 
 -- --------------------------------------------------------
 
@@ -996,7 +1009,7 @@ CREATE TABLE IF NOT EXISTS `modx_manager_log` (
   `itemname` varchar(255) DEFAULT NULL,
   `message` varchar(255) NOT NULL DEFAULT '',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COMMENT='Contains a record of user interaction.' AUTO_INCREMENT=3994 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COMMENT='Contains a record of user interaction.' AUTO_INCREMENT=4018 ;
 
 --
 -- Дамп даних таблиці `modx_manager_log`
@@ -5000,7 +5013,31 @@ INSERT INTO `modx_manager_log` (`id`, `timestamp`, `internalKey`, `username`, `a
 (3990, 1385642807, 1, 'admin', 17, '-', '-', 'Editing settings'),
 (3991, 1385647960, 1, 'admin', 76, '-', '-', 'Element management'),
 (3992, 1385647979, 1, 'admin', 102, '7', 'AlwaysStay', 'Edit plugin'),
-(3993, 1385647982, 1, 'admin', 76, '-', '-', 'Element management');
+(3993, 1385647982, 1, 'admin', 76, '-', '-', 'Element management'),
+(3994, 1385653472, 1, 'admin', 58, '-', 'MODx', 'Logged in'),
+(3995, 1385653499, 1, 'admin', 76, '-', '-', 'Element management'),
+(3996, 1385653503, 1, 'admin', 102, '13', 'Tags', 'Edit plugin'),
+(3997, 1385653507, 1, 'admin', 104, '13', '-', 'Delete plugin'),
+(3998, 1385653507, 1, 'admin', 76, '-', '-', 'Element management'),
+(3999, 1385653552, 1, 'admin', 4, '-', '-', 'Creating a resource'),
+(4000, 1385653564, 1, 'admin', 4, '-', '-', 'Creating a resource'),
+(4001, 1385653565, 1, 'admin', 5, '-', '-', 'Saving resource'),
+(4002, 1385653565, 1, 'admin', 27, '2', '-', 'Editing resource'),
+(4003, 1385653574, 1, 'admin', 5, '2', '-', 'Saving resource'),
+(4004, 1385653574, 1, 'admin', 27, '2', '-', 'Editing resource'),
+(4005, 1385653579, 1, 'admin', 17, '-', '-', 'Editing settings'),
+(4006, 1385653588, 1, 'admin', 30, '-', '-', 'Saving settings'),
+(4007, 1385653590, 1, 'admin', 76, '-', '-', 'Element management'),
+(4008, 1385653593, 1, 'admin', 102, '14', 'Settings', 'Edit plugin'),
+(4009, 1385653668, 1, 'admin', 103, '14', '-', 'Saving plugin'),
+(4010, 1385653668, 1, 'admin', 76, '-', '-', 'Element management'),
+(4011, 1385653670, 1, 'admin', 17, '-', '-', 'Editing settings'),
+(4012, 1385653693, 1, 'admin', 30, '-', '-', 'Saving settings'),
+(4013, 1385653993, 1, 'admin', 76, '-', '-', 'Element management'),
+(4014, 1385654289, 1, 'admin', 27, '2', '-', 'Editing resource'),
+(4015, 1385654293, 1, 'admin', 27, '2', '-', 'Editing resource'),
+(4016, 1385654321, 1, 'admin', 5, '2', '-', 'Saving resource'),
+(4017, 1385654321, 1, 'admin', 27, '2', '-', 'Editing resource');
 
 -- --------------------------------------------------------
 
@@ -5113,14 +5150,15 @@ CREATE TABLE IF NOT EXISTS `modx_site_content` (
   KEY `parent` (`parent`),
   KEY `aliasidx` (`alias`),
   FULLTEXT KEY `content_ft_idx` (`pagetitle`,`description`,`content`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COMMENT='Contains the site document tree.' AUTO_INCREMENT=2 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COMMENT='Contains the site document tree.' AUTO_INCREMENT=3 ;
 
 --
 -- Дамп даних таблиці `modx_site_content`
 --
 
 INSERT INTO `modx_site_content` (`id`, `type`, `contentType`, `pagetitle`, `longtitle`, `description`, `alias`, `link_attributes`, `published`, `pub_date`, `unpub_date`, `parent`, `isfolder`, `introtext`, `content`, `richtext`, `template`, `menuindex`, `searchable`, `cacheable`, `createdby`, `createdon`, `editedby`, `editedon`, `deleted`, `deletedon`, `deletedby`, `publishedon`, `publishedby`, `menutitle`, `donthit`, `haskeywords`, `hasmetatags`, `privateweb`, `privatemgr`, `content_dispo`, `hidemenu`) VALUES
-(1, 'reference', 'text/html', 'ru', '', '', 'ru', '', 1, 0, 0, 0, 1, '', 'http://', 1, 0, 0, 1, 0, 1, 1385557679, 1, 1385557721, 0, 0, 0, 1385373933, 1, '', 0, 0, 0, 0, 0, 0, 0);
+(1, 'reference', 'text/html', 'ru', '', '', 'ru', '', 1, 0, 0, 0, 1, '', 'http://', 1, 0, 0, 1, 0, 1, 1385557679, 1, 1385557721, 0, 0, 0, 1385373933, 1, '', 0, 0, 0, 0, 0, 0, 0),
+(2, 'document', 'text/html', 'Главная', '', '', 'index', '', 1, 0, 0, 1, 0, '', '<p>Контент</p>', 1, 1, 0, 1, 0, 1, 1385653565, 1, 1385654321, 0, 0, 0, 1385653565, 1, '', 0, 0, 0, 0, 0, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -5289,8 +5327,7 @@ INSERT INTO `modx_site_plugins` (`id`, `name`, `description`, `editor_type`, `ca
 (10, 'File Source Template', 'Подключает шаблоны из файлов', 0, 8, 0, '//<?php\r\n/**\r\n * Created by fedo (studio-fresh)\r\n * Date: 19.09.13\r\n * Time: 11:08 * \r\n */\r\n\r\ninclude_once(MODX_BASE_PATH . ''assets/plugins/fileSouceTemplate.plugin.php'');', 0, '', 0, ' '),
 (12, 'ClearImageCache', 'Очищает кешь изображений', 0, 8, 0, '//<?\r\n$a_dir = glob(MODX_BASE_PATH . "assets/cache/.phpthumb_cache/*");\r\n\r\nif(is_array($a_dir)){\r\n foreach ($a_dir as $filename) unlink($filename);\r\n}', 0, '', 0, ' '),
 (11, 'MupltiImagesTv', '', 0, 7, 0, '//<?php\r\n/**\r\n * MultiPhotos\r\n * \r\n * Добавление нескольких фотографий к странице\r\n *\r\n * @category 	plugin\r\n * @version 	1.2.4\r\n * @license 	http://www.gnu.org/copyleft/gpl.html GNU Public License (GPL)\r\n * @author      Temus (temus3@gmail.com)\r\n * @internal	@properties &tvIds=TV Ids;text;&templ=Template;text;&role=Role;text;&resize=Resize: enable;list;true,false;false;&crop=Resize: cropping;list;true,false;true;&prefix=Resize: prefix;text;s_;&th_width=Resize: width;text;&th_height=Resize: height;text;&auto_big=Resize: auto big img;list;true,false;false;&auto_small=Resize: auto small img;list;true,false;false;&w=Preview: width;text;&h=Preview: height;text;&thumbUrl=PHPThumb URL;text;\r\n * @internal	@events OnDocFormRender,OnBeforeDocFormSave\r\n */\r\n \r\ninclude_once(MODX_BASE_PATH.''assets/plugins/MupltiImagesTv.plugin.php'');', 0, '&tvIds=TV Ids;text;1,13 &templ=Template;text; &role=Role;text; &resize=Resize: enable;list;true,false;false &crop=Resize: cropping;list;true,false;true &prefix=Resize: prefix;text;s_ &th_width=Resize: width;text; &th_height=Resize: height;text; &auto_big=Resize: auto big img;list;true,false;false &auto_small=Resize: auto small img;list;true,false;false &w=Preview: width;text; &h=Preview: height;text; &thumbUrl=PHPThumb URL;text;', 0, ' '),
-(13, 'Tags', 'Сохраняет теги', 0, 14, 0, '//<?php\r\n/**\r\n * must be run on OnDocFormRender and OnBeforeDocFormSave\r\n */\r\ninclude MODX_BASE_PATH . ''assets/plugins/tags/tags.plugin.php'';', 0, '&table_name=Имя таблицы;text;site_tags &tv_id=ID TV для вывода списка тегов;text;5 &delimiter=Разделитель тегов;text;,', 0, ' '),
-(14, 'Settings', 'Настройки', 0, 8, 0, '//<?php\r\n/**\r\n* OnSiteSettingsRender - event\r\n* &settings=Settings;textarea; label ~settings_name||label_1 ~settings_name_1\r\n*/\r\ninclude_once(MODX_BASE_PATH . "assets/plugins/settings.plugin.php");', 0, '&settings=Settings;textarea;Коэффициент облака тегов ~tag_cloud', 0, ' ');
+(14, 'Settings', 'Настройки', 0, 8, 0, '//<?php\r\n/**\r\n* OnSiteSettingsRender - event\r\n* &settings=Settings;textarea; label ~settings_name||label_1 ~settings_name_1\r\n*/\r\ninclude_once(MODX_BASE_PATH . "assets/plugins/settings.plugin.php");', 0, '&settings=Settings;textarea;Настройка пользователя (см. плагин Settings) ~some_set', 0, ' ');
 
 -- --------------------------------------------------------
 
@@ -5338,10 +5375,7 @@ INSERT INTO `modx_site_plugin_events` (`pluginid`, `evtid`, `priority`) VALUES
 (11, 29, 3),
 (11, 30, 2),
 (12, 19, 1),
-(13, 28, 1),
-(13, 30, 3),
-(14, 82, 1),
-(13, 90, 1);
+(14, 82, 1);
 
 -- --------------------------------------------------------
 
@@ -5665,7 +5699,7 @@ INSERT INTO `modx_system_settings` (`setting_name`, `setting_value`) VALUES
 ('server_protocol', 'http'),
 ('manager_language', 'russian-UTF8'),
 ('modx_charset', 'UTF-8'),
-('site_name', 'Кузнечная мастерская BERDO'),
+('site_name', 'Site'),
 ('site_start', '1'),
 ('error_page', '71'),
 ('unauthorized_page', '1'),
@@ -5697,7 +5731,7 @@ INSERT INTO `modx_system_settings` (`setting_name`, `setting_value`) VALUES
 ('number_of_results', '20'),
 ('use_editor', '1'),
 ('use_browser', '1'),
-('rb_base_dir', '/var/www/berdoart/berdoart.com/assets/'),
+('rb_base_dir', ''),
 ('rb_base_url', 'assets/'),
 ('which_editor', 'TinyMCE'),
 ('fe_editor_lang', 'russian-UTF8'),
@@ -5713,7 +5747,7 @@ INSERT INTO `modx_system_settings` (`setting_name`, `setting_value`) VALUES
 ('upload_maxsize', '1048576'),
 ('new_file_permissions', '0644'),
 ('new_folder_permissions', '0777'),
-('filemanager_path', '/var/www/berdoart/berdoart.com/'),
+('filemanager_path', ''),
 ('theme_refresher', ''),
 ('manager_layout', '4'),
 ('custom_contenttype', 'application/rss+xml,application/pdf,application/vnd.ms-word,application/vnd.ms-excel,text/html,text/css,text/xml,text/javascript,text/plain,application/json'),
@@ -5770,7 +5804,8 @@ INSERT INTO `modx_system_settings` (`setting_name`, `setting_value`) VALUES
 ('tinymce_custom_buttons3', ''),
 ('tinymce_custom_buttons4', ''),
 ('tinymce_css_selectors', 'Текст=text;Галерея=b-photo-preview js-plugin_group-fancybox_binder'),
-('sys_files_checksum', 'a:4:{s:40:"/var/www/berdoart/berdoart.com/index.php";s:32:"e3a1e9539e789382a2618daa55f8c791";s:40:"/var/www/berdoart/berdoart.com/.htaccess";s:32:"48fe3ecf2c972845a92ccd6969dd4af7";s:48:"/var/www/berdoart/berdoart.com/manager/index.php";s:32:"18e34bc9de7da9d2364a94640dd3c643";s:62:"/var/www/berdoart/berdoart.com/manager/includes/config.inc.php";s:32:"42c21f8d8c811199b9e842a483e1aefc";}');
+('sys_files_checksum', 'a:3:{s:43:"/var/www/freshd/vinil.fresh-d.net/index.php";s:32:"e3a1e9539e789382a2618daa55f8c791";s:51:"/var/www/freshd/vinil.fresh-d.net/manager/index.php";s:32:"18e34bc9de7da9d2364a94640dd3c643";s:65:"/var/www/freshd/vinil.fresh-d.net/manager/includes/config.inc.php";s:32:"09630f904972eeada022c47466180bfe";}'),
+('some_set', '');
 
 -- --------------------------------------------------------
 
@@ -5811,7 +5846,7 @@ CREATE TABLE IF NOT EXISTS `modx_user_attributes` (
 --
 
 INSERT INTO `modx_user_attributes` (`id`, `internalKey`, `fullname`, `role`, `email`, `phone`, `mobilephone`, `blocked`, `blockeduntil`, `blockedafter`, `logincount`, `lastlogin`, `thislogin`, `failedlogincount`, `sessionid`, `dob`, `gender`, `country`, `state`, `zip`, `fax`, `photo`, `comment`) VALUES
-(1, 1, 'Default admin account', 1, 'fedo@fresh-d.net', '', '', 0, 0, 0, 56, 1385562899, 1385635013, 0, '293c9540b40365180dffa1a6bd5792fc', 0, 0, '', '', '', '', '', ''),
+(1, 1, 'Default admin account', 1, 'fedo@fresh-d.net', '', '', 0, 0, 0, 57, 1385635013, 1385653472, 0, 'b2f5af8a3a7d1b4f1126856bc59443c9', 0, 0, '', '', '', '', '', ''),
 (2, 2, '', 1, 'mazurnikolay@gmail.com', '', '', 0, 0, 0, 8, 1383834808, 1385239646, 0, '05802e162fd1943ed9270863d0ac03ba', 0, 0, '', '', '', '', '', '');
 
 -- --------------------------------------------------------

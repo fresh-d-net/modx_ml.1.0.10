@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+	@FILE assets/templates/chunks/header.html
+</head>
+<body>
+<div id="wrapper">
+	<div class="wide_wrap header patterned">
+		<div class="centred">
+			@FILE assets/templates/chunks/header_menu.html
+
+			<a href="#" class="label"></a>
+
+			@FILE assets/templates/chunks/header_feedback.html
+		</div>
+	</div>
+
+	<div class="wide_wrap lead">
+		<div class="centred">
+			{{main_centered}}
+			[[getDocField? &id=`[%id.works_gallery]` &fields=`id,menutitle` &tpl=`@CODE:<a href="[~[+id+]~]" class="btn">[+menutitle+]</a>`]]
+			<a href="[~[%id.works_gallery]~]" class="on_bottom" data-scroll="bottom"></a>
+		</div>
+	</div>
+
+	<div class="wide_wrap placed patterned">
+		<div class="centred">
+			<h2>[[getDocField? &id=`[%id.product_types]` &fields=`introtext`]]</h2>
+			[[getPublications?
+				&id=`[%id.product_types]`
+				&fields=`menutitle`
+				&row=`@TPL:assets/templates/products_type/tpl/products_type_row.tpl`
+				&out=`@TPL:assets/templates/products_type/tpl/products_type_out.tpl`
+				&thumb=`w_300,h_194,zc_1`
+				&tv=`3`
+				&limit=`3`
+			]]
+
+		</div>
+	</div>
+
+	<div class="wide_wrap quote patterned">
+		<div class="centred">
+			[*introtext*]
+			<div class="author">{{main_olexandr_berdo}}</div>
+		</div>
+	</div>
+
+	<div class="wide_wrap clear_content">
+		<div class="centred">
+			<h2>[*service_title*]</h2>
+			<ul class="items_list">
+				<li>
+					<div class="icon_box man"></div>
+					<h3>[*sizer_title*]</h3>
+					<p>[*sizer_text*]</p>
+				</li>
+				<li>
+					<div class="icon_box anvil"></div>
+					<h3>[*making_title*]</h3>
+					<p>[*making_text*]</p>
+				</li>
+				<li>
+					<div class="icon_box car"></div>
+					<h3>[*delivery_title*]</h3>
+					<p>[*delivery_text*]</p>
+				</li>
+				<li>
+					<div class="icon_box chain"></div>
+					<h3>[*installation_title*]</h3>
+					<p>[*installation_text*]</p>
+				</li>
+			</ul>
+			<div class="clear"></div>
+		</div>
+	</div>
+</div>
+
+<div id="attach" class="patterned">
+	<div class="centred">
+		@FILE assets/templates/chunks/footer.html
+	</div>
+</div>
+</body>
+</html>

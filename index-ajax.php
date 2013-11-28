@@ -35,7 +35,12 @@ startCMSSession();
 include_once(MODX_MANAGER_PATH.'/includes/document.parser.class.inc.php');
 
 //Ожидаемые данные JSON: {snippet:'action_name', data: {params_name: params_val}}
-error_reporting(0);
+if(MODX_DEBUG)
+	ini_set("display_errors", 1);
+else{
+	error_reporting(0);
+	ini_set("display_errors", 0);
+}
 //Подобным массивом я исключаю возможность загрузки любого сниппета
 
 $a_res = array();
@@ -46,7 +51,7 @@ if($a_data = $_REQUEST){//из данной строки следует, что 
 	if(isset($a_data['snippet'])){
 
 		//Настройки
-		$a_config['snippets_available'] = array('feedback', 'getNews', 'newsLetter');
+		$a_config['snippets_available'] = array('feedback', 'getPublications', 'order');
 		//проверяем установлено ли разрешение исполдьзовать сниппет
 		if(in_array($a_data['snippet'], $a_config['snippets_available'])){
 			$a_data['data'] = isset($a_data['data']) ? $a_data['data'] : array();
@@ -54,7 +59,7 @@ if($a_data = $_REQUEST){//из данной строки следует, что 
 			autoloader_init();//this function is contained in  /includes/config.inc.php
 
 			//initiate a new document parser
-			$modx = new ModExt(true);//replaced to advanced class ModExt(modx+extentions). This class extends DocumentParser and place in /manager/includes/extenders/
+			$modx = ModExt::app($_is_ajax = true);//replaced to advanced class ModExt(modx+extentions). This class extends DocumentParser and place in /manager/includes/extenders/
 			$etomite = &$modx; // for backward compatibility
 
 			// execute the parser if index.php was not included

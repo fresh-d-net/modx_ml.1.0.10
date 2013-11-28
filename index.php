@@ -107,6 +107,13 @@ a{font-size:200%;color:#f22;text-decoration:underline;margin-top: 30px;padding: 
 	}
 }
 
+if(MODX_DEBUG) {
+	ini_set('display_errors', 1);
+	ini_set('error_reporting', E_ALL);
+	// set track_errors ini variable
+	ini_set("track_errors", "1"); // enable error tracking in $php_errormsg
+}
+
 // start session 
 startCMSSession();
 
@@ -121,7 +128,7 @@ include_once(MODX_MANAGER_PATH.'/includes/document.parser.class.inc.php');
 autoloader_init();//this function is contained in  /includes/config.inc.php
 
 //initiate a new document parser
-$modx = new ModExt();//replaced to advanced class ModExt(modx+extentions). This class extends DocumentParser and place in /manager/includes/extenders/
+$modx = ModExt::app();//replaced to advanced class ModExt(modx+extentions). This class extends DocumentParser and place in /manager/includes/extenders/
 
 /*
  * End added fedo

@@ -8,15 +8,15 @@
  
 class ModExt  extends DocumentParser{
 
-	var $is_ajax = false;
+	public $is_ajax = false;
+	private static $modx;
 
-	function ModExt($is_ajax = false) {
-        global $database_server;
-        if(substr(PHP_OS,0,3) === 'WIN' && $database_server==='localhost') $database_server = '127.0.0.1';
-        $this->loadExtension('DBAPI') or die('Could not load DBAPI class.'); // load DBAPI class
-        $this->dbConfig= & $this->db->config; // alias for backward compatibility
+	private function __construct($is_ajax = false) {
+		global $database_server;
+		if(substr(PHP_OS,0,3) === 'WIN' && $database_server==='localhost') $database_server = '127.0.0.1';
+		$this->loadExtension('DBAPI') or die('Could not load DBAPI class.'); // load DBAPI class
+		$this->dbConfig= & $this->db->config; // alias for backward compatibility
 
-		/*fedo (studio-fresh)*/
 		if(!$is_ajax){
 			$this->jscripts= array ();
 			$this->sjscripts= array ();
@@ -26,17 +26,27 @@ class ModExt  extends DocumentParser{
 			$this->Event= & $this->event; //alias for backward compatibility
 			$this->pluginEvent= array ();
 		}else{
-			 // get the settings
+			// get the settings
 			if (empty ($this->config)) {
 				$this->getSettings();
 			}
+			$this->is_ajax = true;
 		}
-		/*End fedo (studio-fresh)*/
 
-        // set track_errors ini variable
-        @ ini_set("track_errors", "1"); // enable error tracking in $php_errormsg
-        $this->error_reporting = 1;
-    }
+		$this->error_reporting = 1;
+	}
+
+
+
+	public static function app($is_ajax = false){
+		if(self::$modx instanceof ModExt){
+			return self::$modx;
+		}else{
+			return self::$modx = new ModExt($is_ajax);
+		}
+	}
+
+
 
 	/** Метод расставляет плейсхолдеры в указанной строке
 	 * Controller::setPlaceHolders( (str)sTpl, array('key'=> 'val') [, (str)prefix] [, (str)suffix])
@@ -103,7 +113,8 @@ class ModExt  extends DocumentParser{
 
 			//Составляем SQL
 			$s_sql = "
-				SELECT sc.*, IF(tvc.value !='', tvc.value, tv.default_text) as value, tvtpl.`tmplvarid`  FROM {$this->getFullTableName('site_content')} as sc \n
+				SELECT sc.*, IF(tvc.value !='', tvc.value, tv.default_text) as value, tvtpl.`tmplvarid`, tv.name AS tmplvarname \n
+				FROM {$this->getFullTableName('site_content')} as sc \n
 
 				LEFT JOIN {$this->getFullTableName('site_tmplvar_templates')} as tvtpl ON (tvtpl.`templateid`= sc.`template` AND tvtpl.tmplvarid IN ($tv_list)) \n
 				LEFT JOIN {$this->getFullTableName('site_tmplvar_contentvalues')} as tvc ON (tvc.`contentid` = sc.`id` AND tvtpl.tmplvarid = tvc.`tmplvarid` AND tvc.`tmplvarid` IN ($tv_list)) \n
@@ -112,6 +123,7 @@ class ModExt  extends DocumentParser{
 				WHERE sc.{$s_doc_condition} \n
 				ORDER BY {$order_by} {$order_type}
 			";
+
 		}else{
 
 			//Составляем SQL
@@ -122,18 +134,20 @@ class ModExt  extends DocumentParser{
 					ORDER BY {$order_by} {$order_type}
 			";
 		}
-		
+
 		//Добавляем лимит, если установлен
 		if($limit) $s_sql .= "LIMIT {$limit}";
 
 		$result = $this->db->query($s_sql);
 
 		while( $a_row = $this->db->getRow($result) ){
-				foreach($field_list as $item_field){
-					$a_res[$a_row['id']][$item_field] = $a_row[$item_field];
-				}
-				if(isset($a_row['tmplvarid']))
-					$a_res[$a_row['id']]['tv'][$a_row['tmplvarid']] = $a_row['value'];
+			foreach($field_list as $item_field){
+				$a_res[$a_row['id']][$item_field] = $a_row[$item_field];
+			}
+			if(isset($a_row['tmplvarid'])){
+				$a_res[$a_row['id']]['tv'][$a_row['tmplvarid']] = $a_row['value'];
+				$a_res[$a_row['id']][$a_row['tmplvarname']] = $a_row['value'];
+			}
 		}
 
 		return $a_res;
@@ -186,19 +200,34 @@ class ModExt  extends DocumentParser{
 	 * @param  $s_options
 	 * @return array|string
 	 *
-	* Метод делает тумбы
-	* getThumb( $input='/[+tvimagename+]', $options='h_170,w_255')
-	* $options .= "&f=jpg&q=100";
+	 * Метод делает тумбы
+	 * getThumb( $input='/[+tvimagename+]', $options='h_170,w_255')
+	 * $options .= "&f=jpg&q=100";
 	 */
-	public static function getThumb($s_file_url, $s_options){
+	public static function getThumb($s_file_url, $s_options, $b_target=false){
 
 		//define extensions
 		preg_match('/\.[^\.]+$/i',$s_file_url, $ext);
 		$s_ext = $ext[0];
-		$s_file_hash = md5_file($s_file_url);
+		$s_cache_dir = MODX_BASE_PATH . "/assets/cache/.phpthumb_cache/";
 
-		$outputFilename = MODX_BASE_PATH . "/assets/cache/.phpthumb_cache/" . $s_file_hash . "_" . $s_options ."{$s_ext}";
-		if (!file_exists($outputFilename)){
+		if($b_target){
+			if(!self::urlExists($s_file_url)) return false;
+
+			$s_md5_path = $s_cache_dir . md5($s_file_url) . $s_ext;
+			copy($s_file_url, $s_md5_path);
+			$s_file_url = $s_md5_path;
+		}
+
+		if(file_exists($s_file_url)){
+			$s_file_hash = md5_file($s_file_url);
+		}else{
+			if(!$b_target)
+				return self::getThumb(MODX_BASE_PATH . $s_file_url, $s_options, true);
+		}
+
+		$outputFilename = $s_cache_dir . $s_file_hash . "_" . $s_options ."{$s_ext}";
+		if (!file_exists($outputFilename) && $s_file_hash){
 
 			$replace  = array("," => "&", "_" => "=");
 			$s_options  = strtr($s_options, $replace);
@@ -211,8 +240,8 @@ class ModExt  extends DocumentParser{
 			$a_options = array();
 
 			foreach ($_options as $value) {
-			   list($_key, $_val) = explode("=", $value);
-			   $a_options[$_key] = $_val;
+				list($_key, $_val) = explode("=", $value);
+				$a_options[$_key] = $_val;
 			}
 
 			$a_options['f'] = $s_ext;
@@ -222,8 +251,8 @@ class ModExt  extends DocumentParser{
 				$phpThumb->setParameter($_key, $_val);
 			}
 
-			   if ($phpThumb->GenerateThumbnail())
-				   $phpThumb->RenderToFile($outputFilename) ;
+			if ($phpThumb->GenerateThumbnail())
+				$phpThumb->RenderToFile($outputFilename) ;
 
 
 		}
@@ -347,7 +376,7 @@ class ModExt  extends DocumentParser{
             }
 
             // added for backwards compatibility - garry FS#104
-            $this->config['etomite_charset'] = & $this->config['modx_charset'];
+            $this->config['etomite_charset'] =& $this->config['modx_charset'];
 
             // store base_url and base_path inside config array
             $this->config['base_url']= MODX_BASE_URL;
@@ -483,14 +512,17 @@ class ModExt  extends DocumentParser{
 
             // find out which document we need to display
             $this->documentMethod= $this->getDocumentMethod();
-            $this->documentIdentifier= $this->getDocumentIdentifier($this->documentMethod);
+			$this->documentIdentifier= $this->getDocumentIdentifier($this->documentMethod);
         }
 
         if ($this->documentMethod == "none") {
             $this->documentMethod= "id"; // now we know the site_start, change the none method to id
         }
+
+		//Prepare query string. Strip slashes
         if ($this->documentMethod == "alias") {
-            $this->documentIdentifier= $this->cleanDocumentIdentifier($this->documentIdentifier);
+            //strict aliases by fedo (fresh)
+            //$this->documentIdentifier= $this->cleanDocumentIdentifier($this->documentIdentifier);
         }
 
         if ($this->documentMethod == "alias") {
@@ -504,22 +536,31 @@ class ModExt  extends DocumentParser{
                     //multisite fedo. 2013.04.23
 						$found = false;
 
+
 						if (array_key_exists( $this->config['culture_key']."/".$alias, $this->documentListing)) {
 						//if (array_key_exists( $this->config['site_url'] ."/".$alias, $this->documentListing)) {
 						  $this->documentIdentifier = $this->documentListing[$this->config['culture_key'] ."/".$alias];
 
 						  $found = true;
+						}else{
+							$alias .= $this->config['friendly_url_suffix'];
+							if ($_id = $this->documentListing[$this->config['culture_key']. "/". $alias]) {
+							   $this->sendRedirect($this->makeUrl($_id));
+							}
 						}
 
+
 						if(!$found){
-						  $this->sendErrorPage();
+							$this->sendErrorPage();
 						}
+
 					//End multisite
                 }
             } else {
                 $this->documentIdentifier= $this->documentListing[$this->documentIdentifier];
             }
             $this->documentMethod= 'id';
+
         }
 
 
@@ -634,10 +675,36 @@ class ModExt  extends DocumentParser{
             $this->invokeEvent("OnWebPagePrerender");
         }
 
-        echo $this->documentOutput;
-        ob_end_flush();
+		ob_end_flush();
+		echo $this->documentOutput;
     }
 
+
+	function rewriteUrls($documentSource) {
+		 // rewrite the urls
+		 if ($this->config['friendly_urls'] == 1) {
+			 $aliases= array ();
+			 foreach ($this->aliasListing as $item) {
+				 $aliases[$item['id']]= (strlen($item['path']) > 0 ? $item['path'] . '/' : '') . $item['alias'];
+				 $isfolder[$item['id']]= $item['isfolder'];
+			 }
+			 $in= '!\[\~([0-9]+)\~\]!ise'; // Use preg_replace with /e to make it evaluate PHP
+			 $isfriendly= ($this->config['friendly_alias_urls'] == 1 ? 1 : 0);
+			 $pref= $this->config['friendly_url_prefix'];
+			 $suff= $this->config['friendly_url_suffix'];
+			 $thealias= '$aliases[\\1]';
+			 $thefolder= '$isfolder[\\1]';
+			 $found_friendlyurl= "\$this->makeURL('\\1')";//strict aliases by fedo (fresh)
+			 $not_found_friendlyurl= "\$this->makeFriendlyURL('$pref','$suff','" . '\\1' . "')";
+			 $out= "({$isfriendly} && isset({$thealias}) ? {$found_friendlyurl} : {$not_found_friendlyurl})";
+			 $documentSource= preg_replace($in, $out, $documentSource);
+		 } else {
+			 $in= '!\[\~([0-9]+)\~\]!is';
+			 $out= "index.php?id=" . '\1';
+			 $documentSource= preg_replace($in, $out, $documentSource);
+		 }
+		 return $documentSource;
+	 }
 
 
     /**
@@ -671,7 +738,7 @@ class ModExt  extends DocumentParser{
 			// insert META tags & keywords
 			$source= $this->mergeDocumentMETATags($source);
 
-			//Заменяем переменные лексикона перед выводом документа. fedo - 2013.04.23
+			//Заменяем переменные лексикона перед выводом документа. fedo - 2013.04.23. Внекот переменных хранятся id
 			$this->documentOutput = $source;
 			$this->setLexicon();
 			$source = $this->documentOutput;
@@ -684,19 +751,28 @@ class ModExt  extends DocumentParser{
             if ($this->dumpSnippets == 1) {
                 echo "</div></fieldset><br />";
             }
+
             if ($i == ($passes -1) && $i < ($this->maxParserPasses - 1)) {
                 // check if source length was changed
                 $et= strlen($source);
                 if ($st != $et)
                     $passes++; // if content change then increase passes because
             } // we have not yet reached maxParserPasses
+
+			//Заменяем переменные лексикона после того, как сниппеты отработали.
+			$this->documentOutput = $source;
+			$this->setLexicon();
+			$source = $this->documentOutput;
+			//End Заменяем переменные лексикона перед выводом документа
         }
+
         return $source;
     }
 
 
 
 	function makeUrl($id, $alias= '', $args= '', $scheme= '') {
+
         $url= '';
         $virtualDir= '';
         $f_url_prefix = $this->config['friendly_url_prefix'];
@@ -731,7 +807,6 @@ class ModExt  extends DocumentParser{
             $alias= $id;
             if ($this->config['friendly_alias_urls'] == 1) {
                 $al= $this->aliasListing[$id];
-
 				//Multisite. Deleted en/ or ru/ level. fedo - 2013.04.23
 				$context_alias = $this->config['culture_key'];
 				$al['path'] = str_replace($context_alias.'/', '',$al['path']);
@@ -743,7 +818,7 @@ class ModExt  extends DocumentParser{
                 if ($al && $al['alias'])
                     $alias= $al['alias'];
             }
-            $alias= $alPath . $f_url_prefix . $alias . $f_url_suffix;
+            $alias= $alPath . $f_url_prefix . $alias ;//. $f_url_suffix;//strict aliases by fedo (fresh)
             $url= $alias . $args;
         } else {
             $url= 'index.php?id=' . $id . $args;
@@ -848,6 +923,7 @@ class ModExt  extends DocumentParser{
 			$replacer[] = $lexicon[$val];
 			//echo $key.'=>'.$val.'->'.$lexicon[$val];//debug string
 		}
+
 		$this->documentOutput = str_replace($searcher, $replacer, $this->documentOutput);
 		return true;
 	}
@@ -931,6 +1007,176 @@ class ModExt  extends DocumentParser{
 			// выводим
 			return $sData;
 		}
+	}
+
+
+
+	/**
+	 * Получает содержимое файла объявленного как @FILE:/some/path/file или @TPL:/some/path/file
+	 * @static
+	 * @param  $tpl
+	 * @return bool|string
+	 */
+	public function getTpl($tpl) {
+		if($_s = ModExt::getTplFromLink($tpl)){
+			$s_row_tpl = $_s;
+		}elseif($_s = $this->getChunk($tpl)){
+			$s_row_tpl = $_s;
+		}else{
+			$s_row_tpl = '';
+		}
+		return $s_row_tpl;
+	}
+
+
+
+	/**
+	 * Получает содержимое файла объявленного как @FILE:/some/path/file или @TPL:/some/path/file
+	 * @static
+	 * @param  $tpl
+	 * @return bool|string
+	 */
+	static function getTplFromFile($s_file_path) {
+
+		if (!file_exists($s_file_path)) {
+			if (file_exists(MODX_BASE_PATH . DIRECTORY_SEPARATOR . $s_file_path)) {
+				$s_file_path = MODX_BASE_PATH . DIRECTORY_SEPARATOR . $s_file_path;
+			} else {
+				$s_file_path = false;
+			}
+		}
+
+		if ($s_file_path) {
+			$s_tpl = file_get_contents($s_file_path);
+		} else {
+			$s_tpl = "{$s_file_path} not exist";
+		}
+
+		return $s_tpl;
+	}
+
+
+
+	/**
+	 * Проверяет содержит ли строка привязку к файлу
+	 * @static
+	 * @param  $s
+	 * @return bool|string
+	 */
+	static function fileFromLink($s) {
+		switch (true) {
+			case substr($s, 0, 6) == "@FILE:":
+				$res = substr($s, 6);
+				break;
+			case substr($s, 0, 5) == "@TPL:":
+				$res = substr($s, 5);
+				break;
+			default:
+				$res = false;
+				break;
+		}
+
+		return $res;
+	}
+
+
+
+	/**
+	 * Проверяет содержит ли строка привязку к файлу
+	 * @static
+	 * @param  $s
+	 * @return bool|string
+	 */
+	static function getTplFromLink($s) {
+		switch (true) {
+			case substr($s, 0, 6) == "@FILE:":
+				$res = substr($s, 6);
+				$res = self::getTplFromFile($res);
+				break;
+			case substr($s, 0, 5) == "@TPL:":
+				$res = substr($s, 5);
+				$res = self::getTplFromFile($res);
+				break;
+			case substr($s, 0, 6) == "@CODE:":
+				$res = substr($s, 6);
+				break;
+
+			default:
+				$res = false;
+				break;
+		}
+
+		return $res;
+	}
+
+
+
+	/**
+	 * Run a snippet
+	 *
+	 * @param string $snippet Code to run
+	 * @param array $params
+	 * @return string
+	 */
+	function evalSnippet($snippet, $params) {
+		$etomite= $modx= & $this;
+
+		$modx->event->params= & $params; // store params inside event object
+		if (is_array($params)) {
+			extract($params, EXTR_SKIP);
+		}
+		ob_start();
+		$snip= eval ($snippet);
+		$msg= ob_get_contents();
+		ob_end_clean();
+		if ((0<$this->config['error_reporting']) && isset($php_errormsg))
+		{
+			$error_info = error_get_last();
+			if($error_info['type']===2048 || $error_info['type']===8192) $error_type = 2;
+			else                                                         $error_type = 3;
+			if(1<$this->config['error_reporting'] || 2<$error_type)
+			{
+				extract($error_info);
+				if($msg===false) $msg = 'ob_get_contents() error';
+				$result = $this->messageQuit('PHP Parse Error', '', true, $type, $file, 'Snippet', $text, $line, $msg);
+				if ($this->isBackend())
+				{
+					$this->event->alert("An error occurred while loading. Please see the event log for more information<p>{$msg}{$snip}</p>");
+				}
+			}
+		}
+		unset ($modx->event->params);
+		$this->currentSnippet = '';
+		if(is_array($snip) || is_object($snip))
+			return $snip;
+		else
+			return $msg . $snip;
+	}
+
+
+
+	static function explodeTrim($a, $glue = ","){
+		$a_prepare = explode($glue, $a);
+		$a_res = array();
+		foreach($a_prepare as $_item){
+			$a_res[] = trim($_item);
+		}
+		return $a_res;
+	}
+
+
+
+	static function implode_recursive($glue, $a) {
+		$a_implode = array();
+		foreach ($a as $_item) {
+			if (is_array($_item)) {
+				$a_implode[] = self:: implode_recursive($glue, $_item);
+			} else {
+				$a_implode[] = $_item;
+			}
+		}
+
+		return implode($glue, $a_implode);
 	}
 }
 

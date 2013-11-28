@@ -194,7 +194,18 @@ class synccache{
         $tmpPHP .= '$a = &$this->aliasListing;' . "\n";
         $tmpPHP .= '$d = &$this->documentListing;' . "\n";
         $tmpPHP .= '$m = &$this->documentMap;' . "\n";
-        $sql = 'SELECT IF(alias=\'\', id, alias) AS alias, id, parent, isfolder FROM '.$modx->getFullTableName('site_content').' WHERE deleted=0 ORDER BY parent, menuindex';
+
+		$s_alias = "alias";
+		if($config['friendly_url_suffix']){
+
+			$s_alias_folder = "alias";
+			if($config['make_folders']){
+				$s_alias_folder = "CONCAT(alias, '/')";
+			}
+			$s_alias = "IF(isfolder=1, {$s_alias_folder}, CONCAT(alias, '{$config['friendly_url_suffix']}'))";
+		}
+
+        $sql = "SELECT IF(alias='', id, {$s_alias}) AS alias, id, parent, isfolder FROM {$modx->getFullTableName('site_content')} WHERE deleted=0 ORDER BY parent, menuindex";
         $rs = $modx->db->query($sql);
         $limit_tmp = $modx->db->getRecordCount($rs);
         for ($i_tmp=0; $i_tmp<$limit_tmp; $i_tmp++) {

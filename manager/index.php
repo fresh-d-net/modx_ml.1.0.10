@@ -111,14 +111,22 @@ if (!file_exists($config_filename)) {
 }
 
 // include the database configuration file
-include_once "config.inc.php";
+include_once $config_filename;
+
+//
+if(MODX_DEBUG) {
+	ini_set('display_errors', 1);
+	// set track_errors ini variable
+	@ ini_set("track_errors", "1"); // enable error tracking in $php_errormsg
+}
 
 //Initial autoloader
 autoloader_init();//this function is contained in  /includes/config.inc.php
 
 // initiate the content manager class
-include_once "document.parser.class.inc.php";
-$modx = new ModExt();
+// initiate a new document parser
+include_once(MODX_MANAGER_PATH.'/includes/document.parser.class.inc.php');
+$modx = ModExt::app();
 $modx->loadExtension("ManagerAPI");
 $modx->getSettings();
 $etomite = &$modx; // for backward compatibility

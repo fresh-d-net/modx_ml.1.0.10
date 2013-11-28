@@ -155,8 +155,8 @@ class DocumentParser {
             if ($responseCode) {
                 header($responseCode);
             }
+
             $this->prepareResponse();
-            exit();
         } else {
             header('HTTP/1.0 500 Internal Server Error');
             die('<h1>ERROR: Too many forward attempts!</h1><p>The request could not be completed due to too many unsuccessful forward attempts.</p>');
@@ -875,12 +875,14 @@ class DocumentParser {
 
                 $stack .= $result;
                 $loop_count++; // End of foreach loop
+
             }
             if($i == ($passes -1) && $i < ($this->maxParserPasses - 1))
             {
                 if($bt != md5($stack)) $passes++;
             }
         }
+
         return $stack;
     }
 
@@ -1161,6 +1163,7 @@ class DocumentParser {
         $this->minParserPasses= empty ($this->minParserPasses) ? 2 : $this->minParserPasses;
         $this->maxParserPasses= empty ($this->maxParserPasses) ? 10 : $this->maxParserPasses;
         $passes= $this->minParserPasses;
+
         for ($i= 0; $i < $passes; $i++) {
             // get source length if this is the final pass
             if ($i == ($passes -1))
@@ -1295,7 +1298,7 @@ class DocumentParser {
     }
 
     function prepareResponse() {
-        // we now know the method and identifier, let's check the cache
+		// we now know the method and identifier, let's check the cache
         $this->documentContent= $this->checkCache($this->documentIdentifier);
         if ($this->documentContent != "") {
             // invoke OnLoadWebPageCache  event

@@ -5,24 +5,6 @@
  * Event constructor
  */
 
-$.fn.fancybox_binder = function(options){
-	var self = this;
-
-	var __constructor = function(options){
-		//marked gallery
-		var a_box_index = [];
-		self.each(function(){
-			var	el = $(this),
-					p = el.parents('p'),
-					index = p.index();
-			el.attr('rel', 'gallery_' + index);
-		})
-		.fancybox(options);
-		console.log(options);
-	}
-
-	return __constructor(options);
-}
 
 $(function(){
 	//Конструктор события click

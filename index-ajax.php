@@ -51,7 +51,7 @@ if($a_data = $_REQUEST){//из данной строки следует, что 
 	if(isset($a_data['snippet'])){
 
 		//Настройки
-		$a_config['snippets_available'] = array('feedback', 'getPublications', 'order');
+		$a_config['snippets_available'] = array('feedback', 'getPublications', 'order');//TODO: вынести список в системные настройки
 		//проверяем установлено ли разрешение исполдьзовать сниппет
 		if(in_array($a_data['snippet'], $a_config['snippets_available'])){
 			$a_data['data'] = isset($a_data['data']) ? $a_data['data'] : array();

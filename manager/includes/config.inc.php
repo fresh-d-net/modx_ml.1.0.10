@@ -124,7 +124,10 @@ if(!function_exists('autoloader_init')) {
 	}
 }
 
+
+
 //Exception Handler
+//TODO: Переопределить exception_handler используя класс
 function default_exception_handler(Exception $e)
 {
 
